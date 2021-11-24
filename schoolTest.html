@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      <div class="question"></div>
+      <div>
+        <input
+          type="text"
+          class="questionInput"
+          placeholder="답을 입력"
+          required
+        />
+        <button class="submit">제출</button>
+      </div>
+    </div>
+  </body>
+  <script>
+    const questionForm = document.querySelector(".question");
+    const questionInput = document.querySelector(".questionInput");
+    const questionText = [
+      {
+        question: "페이지상에서 원하는기능을 선택할 수 있도록 제공하는 기능",
+        answer: "네비게이션",
+      },
+      {
+        question:
+          "전달하고자 하는 데이터를 표 형태로 구성하기 위하여 속성 조절을 통해 다양한 형태 구현",
+        answer: "테이블",
+      },
+    ];
+    const getQuestion = [];
+
+    function questionFunc() {
+      const randomQuestion = Math.floor(Math.random() * questionText.length);
+      const question = questionText[randomQuestion];
+      questionForm.innerText = question.question;
+      const questionReview = (answer) => {
+        if (questionText.length === 0) {
+          questionForm.innerText = "문제가 없습니다.";
+          return;
+        }
+        if (answer === question.answer) {
+          const spliceQuestion = questionText.splice(randomQuestion, 1);
+          getQuestion.push(spliceQuestion);
+          questionForm.innerText = questionText[randomQuestion].question;
+          questionInput.value = "";
+          questionFunc();
+        } else {
+          console.log("틀림");
+        }
+      };
+
+      questionInput.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          questionReview(questionInput.value);
+        }
+      });
+    }
+    questionFunc();
+  </script>
+</html>
