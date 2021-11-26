@@ -8,7 +8,13 @@
   </head>
   <body>
     <div>
-      <div class="question"></div>
+      <div>
+        <div class="question"></div>
+        <div>
+          <span class="O"></span>
+          <span class="X"></span>
+        </div>
+      </div>
       <div>
         <input
           type="text"
@@ -18,20 +24,40 @@
         />
         <button class="submit">제출</button>
       </div>
+      <div class="result"></div>
     </div>
   </body>
   <script>
-    const questionForm = document.querySelector(".question");
-    const questionInput = document.querySelector(".questionInput");
+    const questionForm = document.querySelector('.question');
+    const questionInput = document.querySelector('.questionInput');
+    const result = document.querySelector('.result');
+    const O = document.querySelector('.O');
+    let OCnt = 0;
+    const X = document.querySelector('.X');
+    let XCnt = 0;
+    O.innerText = `맞힌 문제 : ${OCnt}`;
+    X.innerText = `틀린 문제 : ${XCnt}`;
     const questionText = [
       {
-        question: "페이지상에서 원하는기능을 선택할 수 있도록 제공하는 기능",
-        answer: "네비게이션",
+        question: '페이지상에서 원하는기능을 선택할 수 있도록 제공하는 기능',
+        answer: '네비게이션',
       },
       {
         question:
-          "전달하고자 하는 데이터를 표 형태로 구성하기 위하여 속성 조절을 통해 다양한 형태 구현",
-        answer: "테이블",
+          '전달하고자 하는 데이터를 표 형태로 구성하기 위하여 속성 조절을 통해 다양한 형태 구현',
+        answer: '테이블',
+      },
+      {
+        question: '특정 요소에 마우스 오버 시 제공하는 말풍선',
+        answer: '툴팁',
+      },
+      {
+        question: '페이지의 구성을 유의미한 분류로 나누는 기능',
+        answer: '탭',
+      },
+      {
+        question: '핵심 요소로 시각적인 효과를 전달, 사용자의 집중 유도',
+        answer: '아이콘',
       },
     ];
     const getQuestion = [];
@@ -41,23 +67,25 @@
       const question = questionText[randomQuestion];
       questionForm.innerText = question.question;
       const questionReview = (answer) => {
-        if (questionText.length === 0) {
-          questionForm.innerText = "문제가 없습니다.";
-          return;
-        }
+        console.log(answer);
         if (answer === question.answer) {
+          result.style.color = 'green';
+          result.innerText = '정답!';
+          OCnt += 1;
+          O.innerText = `맞힌 문제 : ${OCnt}`;
           const spliceQuestion = questionText.splice(randomQuestion, 1);
           getQuestion.push(spliceQuestion);
-          questionForm.innerText = questionText[randomQuestion].question;
-          questionInput.value = "";
-          questionFunc();
+          questionInput.value = '';
         } else {
-          console.log("틀림");
+          result.style.color = 'red';
+          result.innerText = '틀림';
+          XCnt += 1;
+          X.innerText = `틀린 문제 : ${XCnt}`;
         }
       };
 
-      questionInput.addEventListener("keydown", (event) => {
-        if (event.key === "Enter") {
+      questionInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
           questionReview(questionInput.value);
         }
       });
